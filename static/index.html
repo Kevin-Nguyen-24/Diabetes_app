@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diabetes Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Diabetes Prediction</h2>
+    <form id="predictForm">
+      <input name="pregnancies" placeholder="Pregnancies" required>
+      <input name="glucose" placeholder="Glucose" required>
+      <input name="bloodpressure" placeholder="Blood Pressure" required>
+      <input name="skinthickness" placeholder="Skin Thickness" required>
+      <input name="insulin" placeholder="Insulin" required>
+      <input name="bmi" placeholder="BMI" required>
+      <input name="diabetespedigreefunction" placeholder="Diabetes Pedigree Function" required>
+      <input name="age" placeholder="Age" required>
+      <button type="submit">Predict</button>
+    </form>
+    <h3 id="result"></h3>
+  </div>
+
+  <script>
+    document.getElementById("predictForm").onsubmit = async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const response = await fetch("/predict", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      document.getElementById("result").innerText = "Predicted Class: " + result.prediction;
+    };
+  </script>
+</body>
+</html>
